@@ -1,0 +1,113 @@
+# Stage 1 -- GRPO against the naive grader. Run only after Stage 0 (smoke)
+# and both Gates (1: persistence ablation, 2: exploitability pilot) have
+# passed. Expect the naive-grader reward to climb while a parallel
+# hardened-grader eval on the same checkpoints stalls or drops -- that
+# divergence is the hacking-gap headline result.
+#
+# PIN: prime-rl v0.7.0, for the v0-environment bridge. Full reasoning and the
+# source-level verification trail are in stage0_smoke.toml's header; do not
+# bump this to main without reading it (main removed the v0 path entirely).
+#
+# Template: configs/alphabet_sort/rl.toml at v0.7.0 (closest real analog --
+# multi-turn, LoRA, no SFT warmup). UNVERIFIED against durable-notebook
+# specifically; run Stage 0 first and expect to adjust batch_size/
+# group_size/steps based on what that reveals about actual cost and speed.
+#
+# group_size 8, not 4: the sibling reward-hacking-env project hit prime-rl's
+# zero-advantage filter dropping whole groups at group_size=4 (identical
+# in-group reward -> zero advantage -> dropped, "Trainable 4/8"). Keep >=8 so
+# there is real within-group reward variance for GRPO to work with.
+#
+# Run: uv run rl @ configs/stage1_naive.toml
+
+max_steps = 60
+seq_len = 8192
+
+[model]
+name = "Qwen/Qwen3-1.7B"
+
+[trainer.model]
+impl = "auto"
+
+# optim_cpu_offload=false: TWEAK applied (docs/specs/TWEAK_trainer_optim_offload.md).
+# The interrupted first live run of this config measured every trainer step
+# taking 4-9 minutes at ~2500 tok/s / ~10% MFU, with Peak Mem. only 8.9 GiB
+# out of A10G's 24 GiB -- the default optim_cpu_offload=true round-trips
+# LoRA's small (~35M param, ~420MB) optimizer state to CPU every step for
+# memory headroom we already have to spare. See that doc for the full trace.
+optim_cpu_offload = false
+
+# ac_offloading="None": fix #1 (optim_cpu_offload) alone did NOT fix the
+# slowdown -- the live relaunch of this exact config was statistically
+# unchanged (7m58s/2338 tok/s vs the original 9m19s/2555 tok/s baseline,
+# both Peak Mem 8.9 GiB). Next candidate: this wraps EVERY forward pass in
+# a CPU-offload context (trainer/rl/train.py's maybe_activation_offloading),
+# far higher frequency than the once-per-step optimizer offload. See
+# docs/specs/TWEAK_trainer_optim_offload.md for the full trace.
+ac_offloading = "None"
+
+# freq=1 (reverted): tested freq=2 (8m23s, Peak Mem 18.1 GiB) and freq=4
+# (OOM'd, 21.5 GiB) live on this exact config. Neither changed step time
+# vs the freq=1 baseline (9m19s, 8.9 GiB) -- both only cost more memory for
+# no speed benefit. All three trainer-level candidates in
+# docs/specs/TWEAK_trainer_optim_offload.md are ruled out; the ~9min/step
+# cost appears to be genuine compute-bound reality for a 1.7B model on
+# A10G, not a fixable config bug. Back to the safest (lowest-memory)
+# setting since it's equally fast.
+[trainer.model.ac]
+freq = 1
+
+[trainer.model.lora]
+rank = 32
+alpha = 64
+
+[trainer.optim]
+lr = 1e-5
+
+[orchestrator]
+batch_size = 64
+group_size = 8
+
+# enable_thinking=false: Stage 0 smoke found Qwen3's thinking trace alone
+# burns most/all of a 320-token turn budget, independent of max_turns --
+# source-verified via the real v0.7.0 RLConfig schema (Qwen3RendererConfig.
+# enable_thinking default true). Deliberate, reversible choice for now, not
+# permanent -- see docs/specs/TWEAK_stage12_sequence_budget.md.
+[orchestrator.renderer]
+name = "qwen3"
+enable_thinking = false
+
+[orchestrator.train.sampling]
+max_completion_tokens = 320
+
+# v0/legacy env: `id` set, no `taskset` -> forwarded to
+# verifiers.load_environment("durable-notebook", **args).
+#
+# max_turns=22, TWEAK applied (docs/specs/TWEAK_stage12_sequence_budget.md,
+# Option A): default max_turns=40 x the old max_completion_tokens=512 was
+# 20,480 tokens of completion alone against seq_len=8192, and Stage 0
+# measured 100% truncation as a result. 22 x 320 = 7,040 + ~400 prompt +
+# ~700 tool results =~ 8,150, fits with slack. 22 turns leaves real room
+# over the ~15-turn ceiling a well-behaved rollout (12 fact turns + manifest)
+# actually needs.
+[[orchestrator.train.env]]
+id = "durable-notebook"
+name = "durable-notebook-naive"
+args = { grader = "naive", compaction_window = 5, n_episodes = 400, n_turns = 12, n_questions = 4, max_turns = 22 }
+
+# Periodic checkpoints, NOT final-only. The sibling reward-hacking-env project
+# lost an entire ~$5 80-step run to this: the default is final-only, the run
+# crashed at step ~73, and there was nothing to evaluate.
+#
+# resume_step=-1: auto-resume from the latest checkpoint in this run's own
+# output dir if one exists (resolve_latest_ckpt_step degrades gracefully to
+# "start from scratch" when the dir is empty, so this is a no-op on a fresh
+# run_tag). Added after a live A100 run was cancelled by an unexplained
+# Modal-platform signal at step 11 with no application-level error -- see
+# docs/specs/TWEAK_trainer_optim_offload.md. Relaunching with the same
+# run_tag now resumes from the step-10 checkpoint instead of restarting.
+[ckpt]
+interval = 10
+resume_step = -1
+
+[inference]

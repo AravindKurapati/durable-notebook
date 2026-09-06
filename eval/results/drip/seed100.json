@@ -1,0 +1,190 @@
+{
+  "model": "openai/gpt-oss-120b",
+  "n_episodes": 1,
+  "n_turns": 10,
+  "n_questions": 3,
+  "compaction_window": 3,
+  "outputs": [
+    {
+      "info": {
+        "episode_id": "conference_logistics-100",
+        "facts": [
+          {
+            "id": "f0",
+            "is_update": false,
+            "label": "AV vendor",
+            "scenario": "conference_logistics",
+            "slot": "av_vendor",
+            "supersedes": null,
+            "turn_index": 0,
+            "value": "Elena Petrova"
+          },
+          {
+            "id": "f1",
+            "is_update": false,
+            "label": "catering headcount",
+            "scenario": "conference_logistics",
+            "slot": "catering_headcount",
+            "supersedes": null,
+            "turn_index": 1,
+            "value": "614"
+          },
+          {
+            "id": "f2",
+            "is_update": false,
+            "label": "sponsor budget",
+            "scenario": "conference_logistics",
+            "slot": "sponsor_budget",
+            "supersedes": null,
+            "turn_index": 2,
+            "value": "$900"
+          },
+          {
+            "id": "f3",
+            "is_update": false,
+            "label": "badge color",
+            "scenario": "conference_logistics",
+            "slot": "badge_color",
+            "supersedes": null,
+            "turn_index": 3,
+            "value": "blue"
+          },
+          {
+            "id": "f4",
+            "is_update": true,
+            "label": "sponsor budget",
+            "scenario": "conference_logistics",
+            "slot": "sponsor_budget",
+            "supersedes": "f2",
+            "turn_index": 7,
+            "value": "$2800"
+          },
+          {
+            "id": "f5",
+            "is_update": false,
+            "label": "room capacity",
+            "scenario": "conference_logistics",
+            "slot": "room_capacity",
+            "supersedes": null,
+            "turn_index": 8,
+            "value": "1357"
+          },
+          {
+            "id": "f6",
+            "is_update": false,
+            "label": "keynote speaker",
+            "scenario": "conference_logistics",
+            "slot": "keynote_speaker",
+            "supersedes": null,
+            "turn_index": 9,
+            "value": "Marcus Webb"
+          }
+        ],
+        "questions": [
+          {
+            "answer": "Marcus Webb",
+            "id": "q-single-keynote_speaker",
+            "kind": "single_hop",
+            "supporting_fact_ids": [
+              "f6"
+            ],
+            "text": "What is the keynote speaker? (key: keynote_speaker)"
+          },
+          {
+            "answer": "badge color: blue; keynote speaker: Marcus Webb",
+            "id": "q-multi-badge_color-keynote_speaker",
+            "kind": "multi_hop",
+            "supporting_fact_ids": [
+              "f3",
+              "f6"
+            ],
+            "text": "What are the badge color (key: badge_color) and the keynote speaker (key: keynote_speaker)?"
+          },
+          {
+            "answer": "blue",
+            "id": "q-single-badge_color",
+            "kind": "single_hop",
+            "supporting_fact_ids": [
+              "f3"
+            ],
+            "text": "What is the badge color? (key: badge_color)"
+          }
+        ],
+        "scenario": "conference_logistics",
+        "seed": 100,
+        "split": "held_out",
+        "turns": [
+          {
+            "fact_id": "f0",
+            "index": 0,
+            "kind": "fact",
+            "text": "For the conference, the AV vendor is Elena Petrova. (key: av_vendor)"
+          },
+          {
+            "fact_id": "f1",
+            "index": 1,
+            "kind": "fact",
+            "text": "For the conference, the catering headcount is 614. (key: catering_headcount)"
+          },
+          {
+            "fact_id": "f2",
+            "index": 2,
+            "kind": "fact",
+            "text": "For the conference, the sponsor budget is $900. (key: sponsor_budget)"
+          },
+          {
+            "fact_id": "f3",
+            "index": 3,
+            "kind": "fact",
+            "text": "For the conference, the badge color is blue. (key: badge_color)"
+          },
+          {
+            "fact_id": null,
+            "index": 4,
+            "kind": "filler",
+            "text": "Thanks, that's helpful context."
+          },
+          {
+            "fact_id": null,
+            "index": 5,
+            "kind": "filler",
+            "text": "By the way, do you think it'll rain later this week?"
+          },
+          {
+            "fact_id": null,
+            "index": 6,
+            "kind": "filler",
+            "text": "No action needed here, just thinking out loud."
+          },
+          {
+            "fact_id": "f4",
+            "index": 7,
+            "kind": "fact",
+            "text": "Update: the sponsor budget for the conference has changed to $2800. (key: sponsor_budget)"
+          },
+          {
+            "fact_id": "f5",
+            "index": 8,
+            "kind": "fact",
+            "text": "For the conference, the room capacity is 1357. (key: room_capacity)"
+          },
+          {
+            "fact_id": "f6",
+            "index": 9,
+            "kind": "fact",
+            "text": "For the conference, the keynote speaker is Marcus Webb. (key: keynote_speaker)"
+          }
+        ]
+      },
+      "dn_manifest": null,
+      "error": {
+        "error": "ModelError",
+        "error_chain_repr": "ModelError() -> RateLimitError(\"Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01j4wa4j5xfzvsnxwbgwqvhfz3` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199718, Requested 472. Please try again in 1m22.08s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}\")",
+        "error_chain_str": "ModelError -> RateLimitError"
+      },
+      "completion": [
+        "role='assistant' content='Understood. The AV vendor for the conference is **Elena Petrova** (key: av_vendor).' reasoning_content=\"We have a conversation with a key-value pair. We need to remember this for later questions. The key is av_vendor, value Elena Petrova.\\n\\nWe need to store this in memory; no file. At the end we'll answer questions, each slot likely matches a key. So we note av_vendor = Elena Petrova.\\n\\nProceed.\" thinking_blocks=None tool_calls=None"
+      ]
+    }
+  ]
+}

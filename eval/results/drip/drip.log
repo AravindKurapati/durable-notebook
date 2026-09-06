@@ -1,0 +1,75 @@
+=== drip started 2026-08-18 00:15:22, stop at 04:30, model openai/gpt-oss-120b ===
+--- cycle seed=100 at 2026-08-18 00:15:23 ---
+Map:   0%|          | 0/1 [00:00<?, ? examples/s]Map: 100%|██████████| 1/1 [00:00<00:00, 25.33 examples/s]
+Processing 1 groups (1 total rollouts):   0%|          | 0/1 [00:00<?, ?it/s, reward=?]Aborted rollout due to ModelError() -> RateLimitError("Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01j4wa4j5xfzvsnxwbgwqvhfz3` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199200, Requested 967. Please try again in 1m12.144s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}")
+Processing 1 groups (1 total rollouts): 100%|██████████| 1/1 [00:05<00:00,  5.80s/it, reward=?]Processing 1 groups (1 total rollouts): 100%|██████████| 1/1 [00:05<00:00,  5.80s/it, reward=0]Processing 1 groups (1 total rollouts): 100%|██████████| 1/1 [00:05<00:00,  5.80s/it, reward=0]
+raw rollouts written to eval\results\drip\seed100.json
+model=openai/gpt-oss-120b  episodes=1  compaction_window=3  errors=1
+
+bucket     question type        n     mean
+
+task-averaged accuracy, VISIBLE   : nan  (n=0)
+task-averaged accuracy, COMPACTED : nan  (n=0)
+
+INCONCLUSIVE: no question type appears in both buckets, so there is nothing to compare like-for-like.
+--- cycle seed=100 exit=0 at 2026-08-18 00:15:36 ---
+=== drip started 2026-08-18 00:17:20, stop at 04:30, model openai/gpt-oss-120b ===
+--- cycle seed=100 at 2026-08-18 00:17:20 ---
+Map:   0%|          | 0/1 [00:00<?, ? examples/s]Map: 100%|██████████| 1/1 [00:00<00:00, 79.64 examples/s]
+Processing 1 groups (1 total rollouts):   0%|          | 0/1 [00:00<?, ?it/s, reward=?]Aborted rollout due to ModelError() -> RateLimitError("Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01j4wa4j5xfzvsnxwbgwqvhfz3` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199849, Requested 578. Please try again in 3m4.464s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}")
+Processing 1 groups (1 total rollouts): 100%|██████████| 1/1 [00:03<00:00,  3.23s/it, reward=?]Processing 1 groups (1 total rollouts): 100%|██████████| 1/1 [00:03<00:00,  3.23s/it, reward=0]Processing 1 groups (1 total rollouts): 100%|██████████| 1/1 [00:03<00:00,  3.23s/it, reward=0]
+raw rollouts written to eval\results\drip\seed100.json
+model=openai/gpt-oss-120b  episodes=1  compaction_window=3  errors=1
+
+bucket     question type        n     mean
+
+task-averaged accuracy, VISIBLE   : nan  (n=0)
+task-averaged accuracy, COMPACTED : nan  (n=0)
+
+INCONCLUSIVE: no question type appears in both buckets, so there is nothing to compare like-for-like.
+--- cycle seed=100 exit=0 at 2026-08-18 00:17:31 ---
+=== drip started 2026-08-18 00:19:56, stop at 09:00, model openai/gpt-oss-120b ===
+--- cycle seed=100 at 2026-08-18 00:19:56 ---
+Map:   0%|          | 0/1 [00:00<?, ? examples/s]Map: 100%|██████████| 1/1 [00:00<00:00, 92.71 examples/s]
+Processing 1 groups (1 total rollouts):   0%|          | 0/1 [00:00<?, ?it/s, reward=?]Aborted rollout due to ModelError() -> RateLimitError("Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01j4wa4j5xfzvsnxwbgwqvhfz3` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199975, Requested 1117. Please try again in 7m51.744s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}")
+Processing 1 groups (1 total rollouts): 100%|██████████| 1/1 [00:01<00:00,  1.14s/it, reward=?]Processing 1 groups (1 total rollouts): 100%|██████████| 1/1 [00:01<00:00,  1.14s/it, reward=0]Processing 1 groups (1 total rollouts): 100%|██████████| 1/1 [00:01<00:00,  1.15s/it, reward=0]
+raw rollouts written to eval\results\drip\seed100.json
+model=openai/gpt-oss-120b  episodes=1  compaction_window=3  errors=1
+
+bucket     question type        n     mean
+
+task-averaged accuracy, VISIBLE   : nan  (n=0)
+task-averaged accuracy, COMPACTED : nan  (n=0)
+
+INCONCLUSIVE: no question type appears in both buckets, so there is nothing to compare like-for-like.
+--- cycle seed=100 exit=0 at 2026-08-18 00:20:07 ---
+=== drip started 2026-08-18 00:20:15, stop at 09:00, model openai/gpt-oss-120b ===
+--- cycle seed=100 at 2026-08-18 00:20:15 ---
+Map:   0%|          | 0/1 [00:00<?, ? examples/s]Map: 100%|██████████| 1/1 [00:00<00:00, 66.45 examples/s]
+Processing 1 groups (1 total rollouts):   0%|          | 0/1 [00:00<?, ?it/s, reward=?]Aborted rollout due to ModelError() -> RateLimitError("Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01j4wa4j5xfzvsnxwbgwqvhfz3` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199923, Requested 421. Please try again in 2m28.608s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}")
+Processing 1 groups (1 total rollouts): 100%|██████████| 1/1 [00:01<00:00,  1.33s/it, reward=?]Processing 1 groups (1 total rollouts): 100%|██████████| 1/1 [00:01<00:00,  1.33s/it, reward=0]Processing 1 groups (1 total rollouts): 100%|██████████| 1/1 [00:01<00:00,  1.33s/it, reward=0]
+raw rollouts written to eval\results\drip\seed100.json
+model=openai/gpt-oss-120b  episodes=1  compaction_window=3  errors=1
+
+bucket     question type        n     mean
+
+task-averaged accuracy, VISIBLE   : nan  (n=0)
+task-averaged accuracy, COMPACTED : nan  (n=0)
+
+INCONCLUSIVE: no question type appears in both buckets, so there is nothing to compare like-for-like.
+--- cycle seed=100 exit=0 at 2026-08-18 00:20:27 ---
+=== drip started 2026-08-18 00:23:38 pid=1535, stop at 09:00, model openai/gpt-oss-120b ===
+--- cycle seed=100 at 2026-08-18 00:23:38 ---
+Map:   0%|          | 0/1 [00:00<?, ? examples/s]Map: 100%|██████████| 1/1 [00:00<00:00, 29.29 examples/s]
+Processing 1 groups (1 total rollouts):   0%|          | 0/1 [00:00<?, ?it/s, reward=?]Aborted rollout due to ModelError() -> RateLimitError("Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01j4wa4j5xfzvsnxwbgwqvhfz3` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199718, Requested 472. Please try again in 1m22.08s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}")
+Processing 1 groups (1 total rollouts): 100%|██████████| 1/1 [00:01<00:00,  1.42s/it, reward=?]Processing 1 groups (1 total rollouts): 100%|██████████| 1/1 [00:01<00:00,  1.42s/it, reward=0]Processing 1 groups (1 total rollouts): 100%|██████████| 1/1 [00:01<00:00,  1.42s/it, reward=0]
+raw rollouts written to eval\results\drip\seed100.json
+model=openai/gpt-oss-120b  episodes=1  compaction_window=3  errors=1
+
+bucket     question type        n     mean
+
+task-averaged accuracy, VISIBLE   : nan  (n=0)
+task-averaged accuracy, COMPACTED : nan  (n=0)
+
+INCONCLUSIVE: no question type appears in both buckets, so there is nothing to compare like-for-like.
+--- cycle seed=100 exit=0 at 2026-08-18 00:23:49 ---

@@ -1,0 +1,72 @@
+# Stage 2 -- GRPO against the hardened grader, same task, same everything
+# else. The contrast against Stage 1 is the result: the hacking gap that
+# opens under the naive grader should not open here.
+#
+# Keep every knob identical to stage1_naive.toml except `grader`. Any other
+# difference makes the two runs non-comparable and destroys the headline.
+#
+# PIN: prime-rl v0.7.0, for the v0-environment bridge. Full reasoning and the
+# source-level verification trail are in stage0_smoke.toml's header.
+#
+# Run: uv run rl @ configs/stage2_hardened.toml
+
+max_steps = 60
+seq_len = 8192
+
+[model]
+name = "Qwen/Qwen3-1.7B"
+
+[trainer.model]
+impl = "auto"
+
+# optim_cpu_offload=false: same as stage1_naive.toml, must stay identical --
+# see docs/specs/TWEAK_trainer_optim_offload.md for the measured root cause.
+optim_cpu_offload = false
+
+# ac_offloading="None": same as stage1_naive.toml, must stay identical --
+# see docs/specs/TWEAK_trainer_optim_offload.md.
+ac_offloading = "None"
+
+# freq=1 (reverted): same as stage1_naive.toml -- see
+# docs/specs/TWEAK_trainer_optim_offload.md for why freq=2/4 were ruled out.
+[trainer.model.ac]
+freq = 1
+
+[trainer.model.lora]
+rank = 32
+alpha = 64
+
+[trainer.optim]
+lr = 1e-5
+
+[orchestrator]
+batch_size = 64
+group_size = 8
+
+# enable_thinking=false: same as stage1_naive.toml, must stay identical or
+# the two runs stop being comparable. See that file's comment for why.
+[orchestrator.renderer]
+name = "qwen3"
+enable_thinking = false
+
+[orchestrator.train.sampling]
+max_completion_tokens = 320
+
+# v0/legacy env: `id` set, no `taskset` -> forwarded to
+# verifiers.load_environment("durable-notebook", **args).
+#
+# max_turns=22, TWEAK applied (docs/specs/TWEAK_stage12_sequence_budget.md,
+# Option A) -- same as stage1_naive.toml. See that file's comment for the
+# arithmetic; must stay identical here or the two runs stop being comparable.
+[[orchestrator.train.env]]
+id = "durable-notebook"
+name = "durable-notebook-hardened"
+args = { grader = "hardened", compaction_window = 5, n_episodes = 400, n_turns = 12, n_questions = 4, max_turns = 22 }
+
+# resume_step=-1: same interruption-resilience as stage1_naive.toml -- see
+# that file's comment and docs/specs/TWEAK_trainer_optim_offload.md.
+[ckpt]
+interval = 10
+resume_step = -1
+
+[inference]

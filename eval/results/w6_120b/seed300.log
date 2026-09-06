@@ -1,0 +1,28 @@
+Map:   0%|          | 0/8 [00:00<?, ? examples/s]Map: 100%|██████████| 8/8 [00:00<00:00, 1032.86 examples/s]
+Processing 8 groups (8 total rollouts):   0%|          | 0/8 [00:00<?, ?it/s, reward=?]Processing 8 groups (8 total rollouts):  12%|█▎        | 1/8 [00:12<01:30, 12.92s/it, reward=?]Processing 8 groups (8 total rollouts):  12%|█▎        | 1/8 [00:12<01:30, 12.92s/it, reward=0]Aborted rollout due to ModelError() -> RateLimitError("Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01j4wa4j5xfzvsnxwbgwqvhfz3` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198835, Requested 1427. Please try again in 1m53.184s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}")
+Processing 8 groups (8 total rollouts):  25%|██▌       | 2/8 [00:12<01:17, 12.92s/it, reward=0]Aborted rollout due to ModelError() -> RateLimitError("Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01j4wa4j5xfzvsnxwbgwqvhfz3` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198835, Requested 1425. Please try again in 1m52.32s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}")
+Processing 8 groups (8 total rollouts):  38%|███▊      | 3/8 [00:12<01:04, 12.92s/it, reward=0]Aborted rollout due to ModelError() -> RateLimitError("Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01j4wa4j5xfzvsnxwbgwqvhfz3` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198835, Requested 1665. Please try again in 3m36s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}")
+Processing 8 groups (8 total rollouts):  50%|█████     | 4/8 [00:13<00:09,  2.47s/it, reward=0]Processing 8 groups (8 total rollouts):  50%|█████     | 4/8 [00:13<00:09,  2.47s/it, reward=0]Aborted rollout due to ModelError() -> RateLimitError("Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01j4wa4j5xfzvsnxwbgwqvhfz3` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198835, Requested 1746. Please try again in 4m10.992s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}")
+Processing 8 groups (8 total rollouts):  62%|██████▎   | 5/8 [00:13<00:07,  2.47s/it, reward=0]Aborted rollout due to ModelError() -> RateLimitError("Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01j4wa4j5xfzvsnxwbgwqvhfz3` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198835, Requested 1425. Please try again in 1m52.32s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}")
+Processing 8 groups (8 total rollouts):  75%|███████▌  | 6/8 [00:13<00:04,  2.47s/it, reward=0]Aborted rollout due to ModelError() -> RateLimitError("Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01j4wa4j5xfzvsnxwbgwqvhfz3` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198835, Requested 1756. Please try again in 4m15.312s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}")
+Processing 8 groups (8 total rollouts):  88%|████████▊ | 7/8 [00:13<00:01,  1.16s/it, reward=0]Processing 8 groups (8 total rollouts):  88%|████████▊ | 7/8 [00:13<00:01,  1.16s/it, reward=0]Aborted rollout due to ModelError() -> RateLimitError("Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01j4wa4j5xfzvsnxwbgwqvhfz3` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198835, Requested 1748. Please try again in 4m11.856s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}")
+Processing 8 groups (8 total rollouts): 100%|██████████| 8/8 [00:13<00:00,  1.16s/it, reward=0]Processing 8 groups (8 total rollouts): 100%|██████████| 8/8 [00:13<00:00,  1.64s/it, reward=0]
+raw rollouts written to eval\results\w6_120b\seed300.json
+model=openai/gpt-oss-120b  episodes=8  compaction_window=6  errors=7
+
+bucket     question type        n     mean
+visible    multi_hop            1    1.000
+visible    single_hop           2    1.000
+visible    temporal_update      1    1.000
+compacted  multi_hop            1    0.000
+compacted  single_hop           1    0.000
+
+task-averaged accuracy, VISIBLE   : 1.000  (n=4)
+task-averaged accuracy, COMPACTED : 0.000  (n=2)
+
+question type        visible  compacted     gap       p
+multi_hop              1.000      0.000   1.000   1.000
+single_hop             1.000      0.000   1.000   0.331
+
+task-averaged visible-minus-compacted gap: 1.000
+INCONCLUSIVE: need >= 15 questions per bucket to say anything (have visible=4, compacted=2). Run more episodes or widen --compaction-window.

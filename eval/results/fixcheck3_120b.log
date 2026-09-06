@@ -1,0 +1,14 @@
+Map:   0%|          | 0/3 [00:00<?, ? examples/s]Map: 100%|██████████| 3/3 [00:00<00:00, 388.75 examples/s]
+Processing 3 groups (3 total rollouts):   0%|          | 0/3 [00:00<?, ?it/s, reward=?]Aborted rollout due to ModelError() -> RateLimitError("Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01j4wa4j5xfzvsnxwbgwqvhfz3` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199653, Requested 986. Please try again in 4m36.048s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}")
+Processing 3 groups (3 total rollouts):  33%|███▎      | 1/3 [00:06<00:13,  6.96s/it, reward=?]Processing 3 groups (3 total rollouts):  33%|███▎      | 1/3 [00:06<00:13,  6.96s/it, reward=0]Aborted rollout due to ModelError() -> RateLimitError("Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01j4wa4j5xfzvsnxwbgwqvhfz3` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199579, Requested 1026. Please try again in 4m21.36s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}")
+Processing 3 groups (3 total rollouts):  67%|██████▋   | 2/3 [00:39<00:21, 21.75s/it, reward=0]Processing 3 groups (3 total rollouts):  67%|██████▋   | 2/3 [00:39<00:21, 21.75s/it, reward=0]Aborted rollout due to ModelError() -> RateLimitError("Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01j4wa4j5xfzvsnxwbgwqvhfz3` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199579, Requested 1019. Please try again in 4m18.336s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}")
+Processing 3 groups (3 total rollouts): 100%|██████████| 3/3 [00:39<00:00, 21.75s/it, reward=0]Processing 3 groups (3 total rollouts): 100%|██████████| 3/3 [00:39<00:00, 13.03s/it, reward=0]
+raw rollouts written to eval\results\fixcheck3_120b.json
+model=openai/gpt-oss-120b  episodes=3  compaction_window=6  errors=3
+
+bucket     question type        n     mean
+
+task-averaged accuracy, VISIBLE   : nan  (n=0)
+task-averaged accuracy, COMPACTED : nan  (n=0)
+
+INCONCLUSIVE: no question type appears in both buckets, so there is nothing to compare like-for-like.

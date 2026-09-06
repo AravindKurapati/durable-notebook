@@ -1,0 +1,27 @@
+Map:   0%|          | 0/5 [00:00<?, ? examples/s]Map: 100%|##########| 5/5 [00:00<00:00, 544.36 examples/s]
+Processing 5 groups (5 total rollouts):   0%|          | 0/5 [00:00<?, ?it/s, reward=?]Processing 5 groups (5 total rollouts):  20%|##        | 1/5 [00:18<01:13, 18.29s/it, reward=?]Processing 5 groups (5 total rollouts):  20%|##        | 1/5 [00:18<01:13, 18.29s/it, reward=0]Processing 5 groups (5 total rollouts):  40%|####      | 2/5 [01:30<02:29, 49.85s/it, reward=0]Processing 5 groups (5 total rollouts):  40%|####      | 2/5 [01:30<02:29, 49.85s/it, reward=0]Processing 5 groups (5 total rollouts):  60%|######    | 3/5 [02:23<01:42, 51.23s/it, reward=0]Processing 5 groups (5 total rollouts):  60%|######    | 3/5 [02:23<01:42, 51.23s/it, reward=0]Processing 5 groups (5 total rollouts):  80%|########  | 4/5 [03:54<01:07, 67.24s/it, reward=0]Processing 5 groups (5 total rollouts):  80%|########  | 4/5 [03:54<01:07, 67.24s/it, reward=0]Aborted rollout due to ModelError() -> RateLimitError("Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01j4wa4j5xfzvsnxwbgwqvhfz3` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 196784, Requested 3753. Please try again in 3m51.983999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}")
+Processing 5 groups (5 total rollouts): 100%|##########| 5/5 [05:41<00:00, 81.49s/it, reward=0]Processing 5 groups (5 total rollouts): 100%|##########| 5/5 [05:41<00:00, 81.49s/it, reward=0]Processing 5 groups (5 total rollouts): 100%|##########| 5/5 [05:41<00:00, 68.33s/it, reward=0]
+
+=== conference_logistics-1 ===
+submitted manifest: {'entries': [{'answer': "I don't have that information.", 'path': 'n/a', 'slot': 'keynote_speaker'}, {'answer': 'Sponsor budget is $1200 and badge color is yellow.', 'path': 'n/a', 'slot': 'sponsor_budget_and_badge_color'}, {'answer': "I don't have that information.", 'path': 'n/a', 'slot': 'room_capacity'}]}
+transcript:
+Traceback (most recent call last):
+  File "D:\Aru\NYU\durable-notebook\eval\gate1_persistence_ablation.py", line 214, in <module>
+    main()
+  File "D:\Aru\NYU\durable-notebook\eval\gate1_persistence_ablation.py", line 207, in main
+    asyncio.run(run(
+  File "C:\Users\user\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py", line 687, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "D:\Aru\NYU\durable-notebook\eval\gate1_persistence_ablation.py", line 162, in run
+    print("    " + _render_completion_transcript(output.get("completion")))
+  File "C:\Users\user\AppData\Local\Programs\Python\Python312\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u202f' in position 360: character maps to <undefined>

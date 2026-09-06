@@ -1,0 +1,136 @@
+# Stage 0 -- cheapest possible live check that durable-notebook actually
+# trains through prime-rl, before spending real GPU time on Stage 1/2.
+# A handful of steps, tiny model, short episodes.
+#
+# PIN: prime-rl v0.7.0 (2026-07-14). This is deliberate, not staleness.
+#
+#   prime-rl v0.7.0 trains a CLASSIC v0 verifiers environment natively, via the
+#   v0 bridge, addressed by `[[orchestrator.train.env]] id/args` -- which is
+#   forwarded to `verifiers.load_environment(id, **args)`. Verified in the real
+#   source at that tag:
+#     - packages/.../configs/orchestrator.py: `EnvConfig.is_legacy` is
+#       "A v0/legacy env (run via the bridge): an `id` is set and no v1
+#       `taskset` is" -> `return not self.taskset.id`.
+#     - Its validator error spells both out: 'no env configured -- set
+#       taskset = { id = "<id>" } (v1) or id = "<id>" (v0/legacy)'.
+#     - src/prime_rl/orchestrator/envs.py `_spawn` passes
+#       `legacy=True, env_id=..., env_args=..., extra_env_kwargs=...`
+#       when `config.is_legacy`, spawning verifiers' `LegacyEnvServer`.
+#       That server records per-turn token ids + logprobs (it handles
+#       `TrainClientConfig`), so GRPO gets real training signal.
+#     - Rollouts are addressed by `task_idx`, which is what LegacyEnvServer
+#       expects (it indexes its dataset server-side).
+#
+#   prime-rl main / v0.8.x REMOVED this path: `TrainSourceConfig` and
+#   `EnvServerConfig` no longer have any legacy field, and
+#   src/prime_rl/entrypoints/env_server.py calls `serve_env(...)` with no
+#   `legacy=`, so it always builds the v1 `EnvServer`. On main, the wire
+#   `RunRequest` also requires exactly one of `task_data` (v1) or `task_idx`
+#   (legacy) and the orchestrator always ships `task_data`. So on main,
+#   durable-notebook would need a full v1 taskset port. Pinning v0.7.0 buys
+#   that port back as scope we don't have to spend.
+#
+# STATUS (2026-09-01): ran once on Modal (A10G:2) end to end -- pipeline,
+# checkpoint write, and the v0 env bridge all work. But it reported 100%
+# truncation on all 5 steps at the pre-fix seq_len=4096/max_completion_
+# tokens=256/default max_turns=40. That bug and its fix (max_turns=22,
+# seq_len=8192, max_completion_tokens=320) are applied above; this file has
+# not yet been re-run with the fix.
+#
+# STATUS (2026-09-01, second re-run): the max_turns fix above did NOT drop
+# truncation -- still 100.0% on all 5 steps, with mean turns 17-20, well
+# under the new max_turns=22 cap. Root cause found via the real v0.7.0
+# RLConfig schema, not guessed: Qwen3RendererConfig.enable_thinking defaults
+# true, and no [orchestrator.renderer] was ever set. At max_completion_
+# tokens=320, Qwen3's thinking trace alone eats most/all of that budget on
+# nearly every turn, independent of how many turns the episode gets. Fixed
+# below by disabling thinking. Deliberate for now, not a permanent choice --
+# see docs/specs/TWEAK_stage12_sequence_budget.md for the reasoning and the
+# reversibility note (re-enabling with a larger budget is a candidate
+# follow-up ablation once past smoke tests).
+#
+# STATUS (2026-09-01, third re-run): CONFIRMED FIXED. Both fixes together
+# (max_turns=22, enable_thinking=false) -> Truncation 0.0% on all 5 steps.
+# Stage 0's job (prove the pipeline trains through prime-rl without
+# structural bugs) is done; next is Stage 1/2, which needs its own
+# go-ahead since it's real money (400 episodes x 2 stages, 1.7B model).
+#
+# Run: uv run rl @ configs/stage0_smoke.toml
+
+max_steps = 5
+seq_len = 8192
+
+[model]
+name = "Qwen/Qwen3-0.6B"
+
+[trainer.model]
+impl = "auto"
+
+# optim_cpu_offload=false: TWEAK applied (docs/specs/TWEAK_trainer_optim_offload.md).
+# Default true round-trips optimizer state to CPU every step to save GPU
+# memory we don't need -- LoRA's optimizer state is ~35M params (~420MB)
+# and Peak Mem. was 8.9 GiB out of A10G's 24 GiB with offload on. Live Stage 1
+# run measured every trainer step taking 4-9 minutes at ~2500 tok/s -- this is
+# the leading suspect for that slowdown.
+optim_cpu_offload = false
+
+# ac_offloading="None": fix #1 (optim_cpu_offload) alone did NOT fix the
+# slowdown -- live Stage 1 relaunch was statistically unchanged (7m58s vs
+# 9m19s baseline). This wraps EVERY forward pass in a CPU-offload context
+# (trainer/rl/train.py), much higher frequency than the once-per-step
+# optimizer offload, and a better fit for a systematic 4-10x slowdown given
+# the same 15 GiB of unused headroom. See TWEAK_trainer_optim_offload.md.
+ac_offloading = "None"
+
+# freq=1 (reverted): freq=2 and freq=4 were both tested live on Stage 1 and
+# neither changed step time (8m23s and OOM'd respectively, vs freq=1's
+# 9m19s baseline) -- they only cost more memory (18.1 / OOM'd GiB vs 8.9)
+# for no speed benefit. All three trainer-level candidates in
+# docs/specs/TWEAK_trainer_optim_offload.md are now ruled out; this appears
+# to be genuine compute-bound cost at this model/GPU combination, not a
+# config bug. Back to the safest (lowest-memory) setting.
+[trainer.model.ac]
+freq = 1
+
+[trainer.model.lora]
+rank = 16
+alpha = 32
+
+[trainer.optim]
+lr = 1e-5
+
+[orchestrator]
+batch_size = 8
+group_size = 4
+
+# enable_thinking=false: default true burns most/all of a 320-token turn
+# budget on Qwen3's thinking trace, independent of max_turns -- see the
+# STATUS note at the top of this file for the source-verified diagnosis.
+[orchestrator.renderer]
+name = "qwen3"
+enable_thinking = false
+
+[orchestrator.train.sampling]
+max_completion_tokens = 320
+
+# v0/legacy env: `id` set, no `taskset` -> forwarded to
+# verifiers.load_environment("durable-notebook", **args).
+# n_turns=8 failed live earlier (ValueError: too small to fit fact events for a
+# 6-slot scenario with updates) -- 10 is what actually worked in the Gate 1 runs.
+#
+# max_turns=22, seq_len=8192, max_completion_tokens=320: TWEAK applied
+# (docs/specs/TWEAK_stage12_sequence_budget.md, Option A). This run's first
+# pass (pre-fix) reported 100% truncation at the old seq_len=4096/
+# max_completion_tokens=256/default max_turns=40 -- every reward measured was
+# on a truncated episode. Deliberately matched to stage1/2's post-fix shape
+# (not just this run's own smaller task) so this smoke pass is a real
+# pre-check of the exact budget stage1/2 will use, not a different config
+# that happens to also not truncate.
+[[orchestrator.train.env]]
+id = "durable-notebook"
+name = "durable-notebook-smoke"
+args = { grader = "naive", compaction_window = 3, n_episodes = 20, n_turns = 10, n_questions = 3, max_turns = 22 }
+
+[ckpt] # checkpoint at the end, mostly to confirm the write path works
+
+[inference] # defaults

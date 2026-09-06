@@ -1,0 +1,1311 @@
+{
+  "model": "openai/gpt-oss-20b",
+  "n_episodes": 6,
+  "n_turns": 12,
+  "n_questions": 4,
+  "compaction_window": 6,
+  "outputs": [
+    {
+      "info": {
+        "episode_id": "conference_logistics-1",
+        "facts": [
+          {
+            "id": "f0",
+            "is_update": false,
+            "label": "catering headcount",
+            "scenario": "conference_logistics",
+            "slot": "catering_headcount",
+            "supersedes": null,
+            "turn_index": 0,
+            "value": "914"
+          },
+          {
+            "id": "f1",
+            "is_update": true,
+            "label": "catering headcount",
+            "scenario": "conference_logistics",
+            "slot": "catering_headcount",
+            "supersedes": "f0",
+            "turn_index": 3,
+            "value": "1536"
+          },
+          {
+            "id": "f2",
+            "is_update": false,
+            "label": "room capacity",
+            "scenario": "conference_logistics",
+            "slot": "room_capacity",
+            "supersedes": null,
+            "turn_index": 5,
+            "value": "109"
+          },
+          {
+            "id": "f3",
+            "is_update": false,
+            "label": "keynote speaker",
+            "scenario": "conference_logistics",
+            "slot": "keynote_speaker",
+            "supersedes": null,
+            "turn_index": 6,
+            "value": "Elena Petrova"
+          },
+          {
+            "id": "f4",
+            "is_update": false,
+            "label": "AV vendor",
+            "scenario": "conference_logistics",
+            "slot": "av_vendor",
+            "supersedes": null,
+            "turn_index": 7,
+            "value": "Liam Torres"
+          },
+          {
+            "id": "f5",
+            "is_update": false,
+            "label": "sponsor budget",
+            "scenario": "conference_logistics",
+            "slot": "sponsor_budget",
+            "supersedes": null,
+            "turn_index": 8,
+            "value": "$1200"
+          },
+          {
+            "id": "f6",
+            "is_update": false,
+            "label": "badge color",
+            "scenario": "conference_logistics",
+            "slot": "badge_color",
+            "supersedes": null,
+            "turn_index": 10,
+            "value": "yellow"
+          }
+        ],
+        "questions": [
+          {
+            "answer": "Elena Petrova",
+            "id": "q-single-keynote_speaker",
+            "kind": "single_hop",
+            "supporting_fact_ids": [
+              "f3"
+            ],
+            "text": "What is the keynote speaker? (key: keynote_speaker)"
+          },
+          {
+            "answer": "room capacity: 109; sponsor budget: $1200",
+            "id": "q-multi-room_capacity-sponsor_budget",
+            "kind": "multi_hop",
+            "supporting_fact_ids": [
+              "f2",
+              "f5"
+            ],
+            "text": "What are the room capacity (key: room_capacity) and the sponsor budget (key: sponsor_budget)?"
+          },
+          {
+            "answer": "109",
+            "id": "q-single-room_capacity",
+            "kind": "single_hop",
+            "supporting_fact_ids": [
+              "f2"
+            ],
+            "text": "What is the room capacity? (key: room_capacity)"
+          },
+          {
+            "answer": "1536",
+            "id": "q-temporal-catering_headcount",
+            "kind": "temporal_update",
+            "supporting_fact_ids": [
+              "f1"
+            ],
+            "text": "What is the current catering headcount? (key: catering_headcount)"
+          }
+        ],
+        "scenario": "conference_logistics",
+        "seed": 1,
+        "split": "train",
+        "turns": [
+          {
+            "fact_id": "f0",
+            "index": 0,
+            "kind": "fact",
+            "text": "For the conference, the catering headcount is 914. (key: catering_headcount)"
+          },
+          {
+            "fact_id": null,
+            "index": 1,
+            "kind": "filler",
+            "text": "That reminds me of a trip I took a while back."
+          },
+          {
+            "fact_id": null,
+            "index": 2,
+            "kind": "filler",
+            "text": "Can you remind me what day of the week it is?"
+          },
+          {
+            "fact_id": "f1",
+            "index": 3,
+            "kind": "fact",
+            "text": "Update: the catering headcount for the conference has changed to 1536. (key: catering_headcount)"
+          },
+          {
+            "fact_id": null,
+            "index": 4,
+            "kind": "filler",
+            "text": "Let's take a short break before continuing."
+          },
+          {
+            "fact_id": "f2",
+            "index": 5,
+            "kind": "fact",
+            "text": "For the conference, the room capacity is 109. (key: room_capacity)"
+          },
+          {
+            "fact_id": "f3",
+            "index": 6,
+            "kind": "fact",
+            "text": "For the conference, the keynote speaker is Elena Petrova. (key: keynote_speaker)"
+          },
+          {
+            "fact_id": "f4",
+            "index": 7,
+            "kind": "fact",
+            "text": "For the conference, the AV vendor is Liam Torres. (key: av_vendor)"
+          },
+          {
+            "fact_id": "f5",
+            "index": 8,
+            "kind": "fact",
+            "text": "For the conference, the sponsor budget is $1200. (key: sponsor_budget)"
+          },
+          {
+            "fact_id": null,
+            "index": 9,
+            "kind": "filler",
+            "text": "Can you remind me what day of the week it is?"
+          },
+          {
+            "fact_id": "f6",
+            "index": 10,
+            "kind": "fact",
+            "text": "For the conference, the badge color is yellow. (key: badge_color)"
+          },
+          {
+            "fact_id": null,
+            "index": 11,
+            "kind": "filler",
+            "text": "Do you have a recommendation for a good podcast?"
+          }
+        ]
+      },
+      "dn_manifest": null,
+      "error": {
+        "error": "ModelError",
+        "error_chain_repr": "ModelError() -> RateLimitError(\"Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01j4wa4j5xfzvsnxwbgwqvhfz3` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199129, Requested 1190. Please try again in 2m17.808s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}\")",
+        "error_chain_str": "ModelError -> RateLimitError"
+      },
+      "completion": [
+        "role='assistant' content='Sure, take your time!' reasoning_content=\"We have to remember that the conversation will continue later with questions. The last fact: catering_headcount 1536. Also earlier said it was 914. So the updated value is 1536. Also current day of week Tuesday. There might be other facts: the trip, etc. But we only care about facts for answering later. The final answer will be a submit_manifest call with entries. The conversation hasn't asked final questions yet. Wait, after break, the user might ask more. But we have no more messages yet. We need to wait for the final set of questions. But we have to prepare to answer. We are ChatGPT, no output yet. We have to not output anything else. We should wait.\" thinking_blocks=None tool_calls=None",
+        "role='user' content='For the conference, the room capacity is 109. (key: room_capacity)'",
+        "role='assistant' content='Got it\u2014room capacity is **109**.' reasoning_content='We have conversation: user gave fact about catering headcount 914. Then update to 1536. Now user says room capacity 109. We need to answer with manifest entries? Wait: The instruction says: \"At the end you will be asked a set of questions and must call submit_manifest with one entries list entry per question\". But currently not asked questions yet. We only need to store facts. Probably respond acknowledging. Let\\'s respond.' thinking_blocks=None tool_calls=None",
+        "role='user' content='For the conference, the keynote speaker is Elena Petrova. (key: keynote_speaker)'",
+        "role='assistant' content='Got it\u2014keynote speaker set to Elena\\u202fPetrova. Let me know when you\u2019re ready to move on!' reasoning_content='We have a conversation. The user last said: \"For the conference, the keynote speaker is Elena Petrova. (key: keynote_speaker)\". They have been giving updates, likely building a dataset of key-value pairs. They want to record \"keynote_speaker\": \"Elena Petrova\". The last statement is an update. No question. The system instructs: \"You are being asked questions about a long conversation. Facts will be stated over many turns... At the end you will be asked a set of questions and must call submit_manifest with one entries list entry per question... Use \\'n/a\\' for path...\". We haven\\'t received any question yet. So likely the user will continue with questions later. We need to keep memory of all facts: catering_headcount: 1536; room_capacity: 109; keynote_speaker: Elena Petrova. Also earlier: \"What day of the week is it?\" They answered Tuesday. So we should store that too: current_day_of_week: Tuesday. The user didn\\'t ask anything else. So we need to wait for the question. The conversation may proceed with a question. So we should not respond yet or we can respond acknowledging. The user didn\\'t ask a question now. They just gave an update. So we can respond politely: \"Got it.\" But we need to be mindful that the final answer will be at the end when the user asks. So we respond accordingly.' thinking_blocks=None tool_calls=None",
+        "role='user' content='For the conference, the AV vendor is Liam Torres. (key: av_vendor)'",
+        "role='assistant' content='Got it\u2014AV vendor set to Liam\\u202fTorres. Let me know when you\u2019re ready to proceed!' reasoning_content='We need to recall the conversation. The user is providing facts to set variables: day of week Tuesday, catering_headcount 1536, room_capacity 109, keynote_speaker Elena Petrova, av_vendor Liam Torres. They may eventually ask a set of questions, we must answer by calling submit_manifest at the end. But we don\\'t know the questions yet. The current user message is setting av_vendor. The user may eventually ask questions. We should wait.\\n\\nWe need to follow the instruction: \"Once all facts are given and you are asked to answer questions, you should call submit_manifest.\" We have not yet received any question. So we just acknowledge the update.\\n\\nThus respond with acknowledging.' thinking_blocks=None tool_calls=None",
+        "role='user' content='For the conference, the sponsor budget is $1200. (key: sponsor_budget)'",
+        {
+          "role": "assistant",
+          "content": "",
+          "tool_calls": [
+            "{\"id\": \"fc_e4cf3e74-22e5-4728-a9a7-cf38d035db2c\", \"name\": \"submit_manifest\", \"arguments\": \"{\\\"entries\\\":[{\\\"answer\\\":\\\"1536\\\",\\\"path\\\":\\\"n/a\\\",\\\"slot\\\":\\\"catering_headcount\\\"},{\\\"answer\\\":\\\"109\\\",\\\"path\\\":\\\"n/a\\\",\\\"slot\\\":\\\"room_capacity\\\"},{\\\"answer\\\":\\\"Elena Petrova\\\",\\\"path\\\":\\\"n/a\\\",\\\"slot\\\":\\\"keynote_speaker\\\"},{\\\"answer\\\":\\\"Liam Torres\\\",\\\"path\\\":\\\"n/a\\\",\\\"slot\\\":\\\"av_vendor\\\"},{\\\"answer\\\":\\\"$1200\\\",\\\"path\\\":\\\"n/a\\\",\\\"slot\\\":\\\"sponsor_budget\\\"}]}\"}"
+          ],
+          "reasoning_content": "We have a conversation where user is providing updates to some data structure for a conference. They mention keys and values. The final message is \"For the conference, the sponsor budget is $1200. (key: sponsor_budget)\".\n\nWe need to call submit_manifest with entries list. Each entry: {\"slot\":\"<key>\", \"path\":\"n/a\", \"answer\":\"<value>\"}. We need one entry per question. We need to identify the questions: The user gave a series of statements. The system: we must provide a set of answers from memory for each question. The questions: The user says \"Update: the catering headcount for the conference has changed to 1536. (key: catering_headcount)\". That's a statement, but perhaps it's a question? The instruction says: \"At the end you will be asked a set of questions and must call submit_manifest with one entries list entry per question, each of the form {\"slot\": \"...\", \"path\": \"n/a\", \"answer\": \"...\"}, giving your best answer from memory.\" So we need to answer all the keys that have been mentioned: catering_headcount, room_capacity, keynote_speaker, av_vendor, sponsor_budget. We need to output each entry with slot = key, answer = the value. Path \"n/a\". So we produce 5 entries.\n\nLet's list them:\n\ncatering_headcount: 1536\nroom_capacity: 109\nkeynote_speaker: Elena Petrova\nav_vendor: Liam Torres\nsponsor_budget: $1200\n\nBut answer expects string values. We could use \"1536\", \"109\", \"Elena Petrova\", \"Liam Torres\", \"$1200\". Use as string.\n\nThus we call submit_manifest with entries.\n\n"
+        },
+        "role='tool' tool_call_id='fc_e4cf3e74-22e5-4728-a9a7-cf38d035db2c' content='error: the questions have not been asked yet, so there is nothing to answer. Keep reading the incoming turns (and recording anything you will need) until you are asked the questions, then call this once.'",
+        "role='user' content='Can you remind me what day of the week it is?'",
+        "role='assistant' content='Wednesday.' reasoning_content='We have not seen any questions yet. The user asked for a reminder of day of week. We need to respond with day. Today is 2026-08-18. We need to give day of week: Wednesday. So answer: Wednesday.' thinking_blocks=None tool_calls=None"
+      ]
+    },
+    {
+      "info": {
+        "episode_id": "apartment_renovation-2",
+        "facts": [
+          {
+            "id": "f0",
+            "is_update": false,
+            "label": "total budget",
+            "scenario": "apartment_renovation",
+            "slot": "budget_total",
+            "supersedes": null,
+            "turn_index": 0,
+            "value": "$750"
+          },
+          {
+            "id": "f1",
+            "is_update": false,
+            "label": "permit number",
+            "scenario": "apartment_renovation",
+            "slot": "permit_number",
+            "supersedes": null,
+            "turn_index": 2,
+            "value": "32752"
+          },
+          {
+            "id": "f2",
+            "is_update": false,
+            "label": "paint color",
+            "scenario": "apartment_renovation",
+            "slot": "paint_color",
+            "supersedes": null,
+            "turn_index": 3,
+            "value": "cream"
+          },
+          {
+            "id": "f3",
+            "is_update": false,
+            "label": "contractor name",
+            "scenario": "apartment_renovation",
+            "slot": "contractor_name",
+            "supersedes": null,
+            "turn_index": 5,
+            "value": "Elena Petrova"
+          },
+          {
+            "id": "f4",
+            "is_update": true,
+            "label": "paint color",
+            "scenario": "apartment_renovation",
+            "slot": "paint_color",
+            "supersedes": "f2",
+            "turn_index": 6,
+            "value": "ivory"
+          },
+          {
+            "id": "f5",
+            "is_update": false,
+            "label": "completion date",
+            "scenario": "apartment_renovation",
+            "slot": "completion_date",
+            "supersedes": null,
+            "turn_index": 7,
+            "value": "June 17"
+          },
+          {
+            "id": "f6",
+            "is_update": false,
+            "label": "flooring material",
+            "scenario": "apartment_renovation",
+            "slot": "flooring_material",
+            "supersedes": null,
+            "turn_index": 9,
+            "value": "laminate"
+          },
+          {
+            "id": "f7",
+            "is_update": true,
+            "label": "flooring material",
+            "scenario": "apartment_renovation",
+            "slot": "flooring_material",
+            "supersedes": "f6",
+            "turn_index": 10,
+            "value": "bamboo"
+          },
+          {
+            "id": "f8",
+            "is_update": true,
+            "label": "completion date",
+            "scenario": "apartment_renovation",
+            "slot": "completion_date",
+            "supersedes": "f5",
+            "turn_index": 11,
+            "value": "August 26"
+          }
+        ],
+        "questions": [
+          {
+            "answer": "August 26",
+            "id": "q-temporal-completion_date",
+            "kind": "temporal_update",
+            "supporting_fact_ids": [
+              "f8"
+            ],
+            "text": "What is the current completion date? (key: completion_date)"
+          },
+          {
+            "answer": "paint color: ivory; contractor name: Elena Petrova",
+            "id": "q-multi-paint_color-contractor_name",
+            "kind": "multi_hop",
+            "supporting_fact_ids": [
+              "f4",
+              "f3"
+            ],
+            "text": "What are the paint color (key: paint_color) and the contractor name (key: contractor_name)?"
+          },
+          {
+            "answer": "Elena Petrova",
+            "id": "q-single-contractor_name",
+            "kind": "single_hop",
+            "supporting_fact_ids": [
+              "f3"
+            ],
+            "text": "What is the contractor name? (key: contractor_name)"
+          },
+          {
+            "answer": "bamboo",
+            "id": "q-temporal-flooring_material",
+            "kind": "temporal_update",
+            "supporting_fact_ids": [
+              "f7"
+            ],
+            "text": "What is the current flooring material? (key: flooring_material)"
+          }
+        ],
+        "scenario": "apartment_renovation",
+        "seed": 2,
+        "split": "train",
+        "turns": [
+          {
+            "fact_id": "f0",
+            "index": 0,
+            "kind": "fact",
+            "text": "For the renovation, the total budget is $750. (key: budget_total)"
+          },
+          {
+            "fact_id": null,
+            "index": 1,
+            "kind": "filler",
+            "text": "What's your favorite way to make coffee?"
+          },
+          {
+            "fact_id": "f1",
+            "index": 2,
+            "kind": "fact",
+            "text": "For the renovation, the permit number is 32752. (key: permit_number)"
+          },
+          {
+            "fact_id": "f2",
+            "index": 3,
+            "kind": "fact",
+            "text": "For the renovation, the paint color is cream. (key: paint_color)"
+          },
+          {
+            "fact_id": null,
+            "index": 4,
+            "kind": "filler",
+            "text": "This is unrelated, but I like your explanation style."
+          },
+          {
+            "fact_id": "f3",
+            "index": 5,
+            "kind": "fact",
+            "text": "For the renovation, the contractor name is Elena Petrova. (key: contractor_name)"
+          },
+          {
+            "fact_id": "f4",
+            "index": 6,
+            "kind": "fact",
+            "text": "Update: the paint color for the renovation has changed to ivory. (key: paint_color)"
+          },
+          {
+            "fact_id": "f5",
+            "index": 7,
+            "kind": "fact",
+            "text": "For the renovation, the completion date is June 17. (key: completion_date)"
+          },
+          {
+            "fact_id": null,
+            "index": 8,
+            "kind": "filler",
+            "text": "That reminds me of a trip I took a while back."
+          },
+          {
+            "fact_id": "f6",
+            "index": 9,
+            "kind": "fact",
+            "text": "For the renovation, the flooring material is laminate. (key: flooring_material)"
+          },
+          {
+            "fact_id": "f7",
+            "index": 10,
+            "kind": "fact",
+            "text": "Update: the flooring material for the renovation has changed to bamboo. (key: flooring_material)"
+          },
+          {
+            "fact_id": "f8",
+            "index": 11,
+            "kind": "fact",
+            "text": "Update: the completion date for the renovation has changed to August 26. (key: completion_date)"
+          }
+        ]
+      },
+      "dn_manifest": null,
+      "error": {
+        "error": "ModelError",
+        "error_chain_repr": "ModelError() -> RateLimitError(\"Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01j4wa4j5xfzvsnxwbgwqvhfz3` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199642, Requested 889. Please try again in 3m49.392s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}\")",
+        "error_chain_str": "ModelError -> RateLimitError"
+      },
+      "completion": [
+        "role='assistant' content='I acknowledge that the renovation total budget is $750 (key: budget_total).' reasoning_content=\"We have a conversation about renovation, total budget 750. We'll get more context. We need to answer final questions later. For now just record the fact. We'll store maybe in memory. But we need to produce final answers at the end via submit_manifest. The assistant should not output anything else. So for now we just note the fact.\" thinking_blocks=None tool_calls=None"
+      ]
+    },
+    {
+      "info": {
+        "episode_id": "conference_logistics-3",
+        "facts": [
+          {
+            "id": "f0",
+            "is_update": false,
+            "label": "room capacity",
+            "scenario": "conference_logistics",
+            "slot": "room_capacity",
+            "supersedes": null,
+            "turn_index": 0,
+            "value": "1512"
+          },
+          {
+            "id": "f1",
+            "is_update": false,
+            "label": "badge color",
+            "scenario": "conference_logistics",
+            "slot": "badge_color",
+            "supersedes": null,
+            "turn_index": 1,
+            "value": "yellow"
+          },
+          {
+            "id": "f2",
+            "is_update": true,
+            "label": "room capacity",
+            "scenario": "conference_logistics",
+            "slot": "room_capacity",
+            "supersedes": "f0",
+            "turn_index": 2,
+            "value": "858"
+          },
+          {
+            "id": "f3",
+            "is_update": false,
+            "label": "sponsor budget",
+            "scenario": "conference_logistics",
+            "slot": "sponsor_budget",
+            "supersedes": null,
+            "turn_index": 3,
+            "value": "$3500"
+          },
+          {
+            "id": "f4",
+            "is_update": true,
+            "label": "sponsor budget",
+            "scenario": "conference_logistics",
+            "slot": "sponsor_budget",
+            "supersedes": "f3",
+            "turn_index": 4,
+            "value": "$2000"
+          },
+          {
+            "id": "f5",
+            "is_update": false,
+            "label": "keynote speaker",
+            "scenario": "conference_logistics",
+            "slot": "keynote_speaker",
+            "supersedes": null,
+            "turn_index": 5,
+            "value": "Noah Becker"
+          },
+          {
+            "id": "f6",
+            "is_update": false,
+            "label": "AV vendor",
+            "scenario": "conference_logistics",
+            "slot": "av_vendor",
+            "supersedes": null,
+            "turn_index": 6,
+            "value": "Ana Reyes"
+          },
+          {
+            "id": "f7",
+            "is_update": false,
+            "label": "catering headcount",
+            "scenario": "conference_logistics",
+            "slot": "catering_headcount",
+            "supersedes": null,
+            "turn_index": 8,
+            "value": "324"
+          },
+          {
+            "id": "f8",
+            "is_update": true,
+            "label": "catering headcount",
+            "scenario": "conference_logistics",
+            "slot": "catering_headcount",
+            "supersedes": "f7",
+            "turn_index": 9,
+            "value": "1849"
+          },
+          {
+            "id": "f9",
+            "is_update": true,
+            "label": "keynote speaker",
+            "scenario": "conference_logistics",
+            "slot": "keynote_speaker",
+            "supersedes": "f5",
+            "turn_index": 10,
+            "value": "Sofia Rossi"
+          }
+        ],
+        "questions": [
+          {
+            "answer": "1849",
+            "id": "q-temporal-catering_headcount",
+            "kind": "temporal_update",
+            "supporting_fact_ids": [
+              "f8"
+            ],
+            "text": "What is the current catering headcount? (key: catering_headcount)"
+          },
+          {
+            "answer": "Sofia Rossi",
+            "id": "q-temporal-keynote_speaker",
+            "kind": "temporal_update",
+            "supporting_fact_ids": [
+              "f9"
+            ],
+            "text": "What is the current keynote speaker? (key: keynote_speaker)"
+          },
+          {
+            "answer": "yellow",
+            "id": "q-single-badge_color",
+            "kind": "single_hop",
+            "supporting_fact_ids": [
+              "f1"
+            ],
+            "text": "What is the badge color? (key: badge_color)"
+          },
+          {
+            "answer": "858",
+            "id": "q-temporal-room_capacity",
+            "kind": "temporal_update",
+            "supporting_fact_ids": [
+              "f2"
+            ],
+            "text": "What is the current room capacity? (key: room_capacity)"
+          }
+        ],
+        "scenario": "conference_logistics",
+        "seed": 3,
+        "split": "train",
+        "turns": [
+          {
+            "fact_id": "f0",
+            "index": 0,
+            "kind": "fact",
+            "text": "For the conference, the room capacity is 1512. (key: room_capacity)"
+          },
+          {
+            "fact_id": "f1",
+            "index": 1,
+            "kind": "fact",
+            "text": "For the conference, the badge color is yellow. (key: badge_color)"
+          },
+          {
+            "fact_id": "f2",
+            "index": 2,
+            "kind": "fact",
+            "text": "Update: the room capacity for the conference has changed to 858. (key: room_capacity)"
+          },
+          {
+            "fact_id": "f3",
+            "index": 3,
+            "kind": "fact",
+            "text": "For the conference, the sponsor budget is $3500. (key: sponsor_budget)"
+          },
+          {
+            "fact_id": "f4",
+            "index": 4,
+            "kind": "fact",
+            "text": "Update: the sponsor budget for the conference has changed to $2000. (key: sponsor_budget)"
+          },
+          {
+            "fact_id": "f5",
+            "index": 5,
+            "kind": "fact",
+            "text": "For the conference, the keynote speaker is Noah Becker. (key: keynote_speaker)"
+          },
+          {
+            "fact_id": "f6",
+            "index": 6,
+            "kind": "fact",
+            "text": "For the conference, the AV vendor is Ana Reyes. (key: av_vendor)"
+          },
+          {
+            "fact_id": null,
+            "index": 7,
+            "kind": "filler",
+            "text": "Quick unrelated question: what's a good way to organize a bookshelf?"
+          },
+          {
+            "fact_id": "f7",
+            "index": 8,
+            "kind": "fact",
+            "text": "For the conference, the catering headcount is 324. (key: catering_headcount)"
+          },
+          {
+            "fact_id": "f8",
+            "index": 9,
+            "kind": "fact",
+            "text": "Update: the catering headcount for the conference has changed to 1849. (key: catering_headcount)"
+          },
+          {
+            "fact_id": "f9",
+            "index": 10,
+            "kind": "fact",
+            "text": "Update: the keynote speaker for the conference has changed to Sofia Rossi. (key: keynote_speaker)"
+          },
+          {
+            "fact_id": null,
+            "index": 11,
+            "kind": "filler",
+            "text": "By the way, do you think it'll rain later this week?"
+          }
+        ]
+      },
+      "dn_manifest": null,
+      "error": {
+        "error": "ModelError",
+        "error_chain_repr": "ModelError() -> RateLimitError(\"Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01j4wa4j5xfzvsnxwbgwqvhfz3` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199642, Requested 581. Please try again in 1m36.336s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}\")",
+        "error_chain_str": "ModelError -> RateLimitError"
+      },
+      "completion": []
+    },
+    {
+      "info": {
+        "episode_id": "conference_logistics-4",
+        "facts": [
+          {
+            "id": "f0",
+            "is_update": false,
+            "label": "AV vendor",
+            "scenario": "conference_logistics",
+            "slot": "av_vendor",
+            "supersedes": null,
+            "turn_index": 1,
+            "value": "Ingrid Larsen"
+          },
+          {
+            "id": "f1",
+            "is_update": false,
+            "label": "catering headcount",
+            "scenario": "conference_logistics",
+            "slot": "catering_headcount",
+            "supersedes": null,
+            "turn_index": 2,
+            "value": "844"
+          },
+          {
+            "id": "f2",
+            "is_update": false,
+            "label": "badge color",
+            "scenario": "conference_logistics",
+            "slot": "badge_color",
+            "supersedes": null,
+            "turn_index": 3,
+            "value": "purple"
+          },
+          {
+            "id": "f3",
+            "is_update": false,
+            "label": "keynote speaker",
+            "scenario": "conference_logistics",
+            "slot": "keynote_speaker",
+            "supersedes": null,
+            "turn_index": 4,
+            "value": "Liam Torres"
+          },
+          {
+            "id": "f4",
+            "is_update": false,
+            "label": "room capacity",
+            "scenario": "conference_logistics",
+            "slot": "room_capacity",
+            "supersedes": null,
+            "turn_index": 5,
+            "value": "414"
+          },
+          {
+            "id": "f5",
+            "is_update": false,
+            "label": "sponsor budget",
+            "scenario": "conference_logistics",
+            "slot": "sponsor_budget",
+            "supersedes": null,
+            "turn_index": 6,
+            "value": "$500"
+          },
+          {
+            "id": "f6",
+            "is_update": true,
+            "label": "keynote speaker",
+            "scenario": "conference_logistics",
+            "slot": "keynote_speaker",
+            "supersedes": "f3",
+            "turn_index": 7,
+            "value": "Noah Becker"
+          },
+          {
+            "id": "f7",
+            "is_update": true,
+            "label": "sponsor budget",
+            "scenario": "conference_logistics",
+            "slot": "sponsor_budget",
+            "supersedes": "f5",
+            "turn_index": 9,
+            "value": "$620"
+          },
+          {
+            "id": "f8",
+            "is_update": true,
+            "label": "room capacity",
+            "scenario": "conference_logistics",
+            "slot": "room_capacity",
+            "supersedes": "f4",
+            "turn_index": 10,
+            "value": "232"
+          },
+          {
+            "id": "f9",
+            "is_update": true,
+            "label": "catering headcount",
+            "scenario": "conference_logistics",
+            "slot": "catering_headcount",
+            "supersedes": "f1",
+            "turn_index": 11,
+            "value": "1984"
+          }
+        ],
+        "questions": [
+          {
+            "answer": "Noah Becker",
+            "id": "q-temporal-keynote_speaker",
+            "kind": "temporal_update",
+            "supporting_fact_ids": [
+              "f6"
+            ],
+            "text": "What is the current keynote speaker? (key: keynote_speaker)"
+          },
+          {
+            "answer": "purple",
+            "id": "q-single-badge_color",
+            "kind": "single_hop",
+            "supporting_fact_ids": [
+              "f2"
+            ],
+            "text": "What is the badge color? (key: badge_color)"
+          },
+          {
+            "answer": "1984",
+            "id": "q-temporal-catering_headcount",
+            "kind": "temporal_update",
+            "supporting_fact_ids": [
+              "f9"
+            ],
+            "text": "What is the current catering headcount? (key: catering_headcount)"
+          },
+          {
+            "answer": "keynote speaker: Noah Becker; room capacity: 232",
+            "id": "q-multi-keynote_speaker-room_capacity",
+            "kind": "multi_hop",
+            "supporting_fact_ids": [
+              "f6",
+              "f8"
+            ],
+            "text": "What are the keynote speaker (key: keynote_speaker) and the room capacity (key: room_capacity)?"
+          }
+        ],
+        "scenario": "conference_logistics",
+        "seed": 4,
+        "split": "train",
+        "turns": [
+          {
+            "fact_id": null,
+            "index": 0,
+            "kind": "filler",
+            "text": "That reminds me of a trip I took a while back."
+          },
+          {
+            "fact_id": "f0",
+            "index": 1,
+            "kind": "fact",
+            "text": "For the conference, the AV vendor is Ingrid Larsen. (key: av_vendor)"
+          },
+          {
+            "fact_id": "f1",
+            "index": 2,
+            "kind": "fact",
+            "text": "For the conference, the catering headcount is 844. (key: catering_headcount)"
+          },
+          {
+            "fact_id": "f2",
+            "index": 3,
+            "kind": "fact",
+            "text": "For the conference, the badge color is purple. (key: badge_color)"
+          },
+          {
+            "fact_id": "f3",
+            "index": 4,
+            "kind": "fact",
+            "text": "For the conference, the keynote speaker is Liam Torres. (key: keynote_speaker)"
+          },
+          {
+            "fact_id": "f4",
+            "index": 5,
+            "kind": "fact",
+            "text": "For the conference, the room capacity is 414. (key: room_capacity)"
+          },
+          {
+            "fact_id": "f5",
+            "index": 6,
+            "kind": "fact",
+            "text": "For the conference, the sponsor budget is $500. (key: sponsor_budget)"
+          },
+          {
+            "fact_id": "f6",
+            "index": 7,
+            "kind": "fact",
+            "text": "Update: the keynote speaker for the conference has changed to Noah Becker. (key: keynote_speaker)"
+          },
+          {
+            "fact_id": null,
+            "index": 8,
+            "kind": "filler",
+            "text": "I saw an interesting article about coral reefs today."
+          },
+          {
+            "fact_id": "f7",
+            "index": 9,
+            "kind": "fact",
+            "text": "Update: the sponsor budget for the conference has changed to $620. (key: sponsor_budget)"
+          },
+          {
+            "fact_id": "f8",
+            "index": 10,
+            "kind": "fact",
+            "text": "Update: the room capacity for the conference has changed to 232. (key: room_capacity)"
+          },
+          {
+            "fact_id": "f9",
+            "index": 11,
+            "kind": "fact",
+            "text": "Update: the catering headcount for the conference has changed to 1984. (key: catering_headcount)"
+          }
+        ]
+      },
+      "dn_manifest": null,
+      "error": {
+        "error": "ModelError",
+        "error_chain_repr": "ModelError() -> RateLimitError(\"Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01j4wa4j5xfzvsnxwbgwqvhfz3` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199642, Requested 575. Please try again in 1m33.744s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}\")",
+        "error_chain_str": "ModelError -> RateLimitError"
+      },
+      "completion": []
+    },
+    {
+      "info": {
+        "episode_id": "research_study-0",
+        "facts": [
+          {
+            "id": "f0",
+            "is_update": false,
+            "label": "data monitoring lead",
+            "scenario": "research_study",
+            "slot": "data_monitoring_lead",
+            "supersedes": null,
+            "turn_index": 3,
+            "value": "Sofia Rossi"
+          },
+          {
+            "id": "f1",
+            "is_update": false,
+            "label": "enrollment deadline",
+            "scenario": "research_study",
+            "slot": "enrollment_deadline",
+            "supersedes": null,
+            "turn_index": 5,
+            "value": "July 11"
+          },
+          {
+            "id": "f2",
+            "is_update": false,
+            "label": "funding amount",
+            "scenario": "research_study",
+            "slot": "funding_amount",
+            "supersedes": null,
+            "turn_index": 6,
+            "value": "$2000"
+          },
+          {
+            "id": "f3",
+            "is_update": false,
+            "label": "primary site city",
+            "scenario": "research_study",
+            "slot": "primary_site",
+            "supersedes": null,
+            "turn_index": 7,
+            "value": "Austin"
+          },
+          {
+            "id": "f4",
+            "is_update": false,
+            "label": "target sample size",
+            "scenario": "research_study",
+            "slot": "sample_size",
+            "supersedes": null,
+            "turn_index": 8,
+            "value": "4546"
+          },
+          {
+            "id": "f5",
+            "is_update": false,
+            "label": "IRB protocol number",
+            "scenario": "research_study",
+            "slot": "irb_protocol_number",
+            "supersedes": null,
+            "turn_index": 9,
+            "value": "8815"
+          }
+        ],
+        "questions": [
+          {
+            "answer": "funding amount: $2000; target sample size: 4546",
+            "id": "q-multi-funding_amount-sample_size",
+            "kind": "multi_hop",
+            "supporting_fact_ids": [
+              "f2",
+              "f4"
+            ],
+            "text": "What are the funding amount (key: funding_amount) and the target sample size (key: sample_size)?"
+          },
+          {
+            "answer": "Austin",
+            "id": "q-single-primary_site",
+            "kind": "single_hop",
+            "supporting_fact_ids": [
+              "f3"
+            ],
+            "text": "What is the primary site city? (key: primary_site)"
+          },
+          {
+            "answer": "primary site city: Austin; enrollment deadline: July 11",
+            "id": "q-multi-primary_site-enrollment_deadline",
+            "kind": "multi_hop",
+            "supporting_fact_ids": [
+              "f3",
+              "f1"
+            ],
+            "text": "What are the primary site city (key: primary_site) and the enrollment deadline (key: enrollment_deadline)?"
+          },
+          {
+            "answer": "July 11",
+            "id": "q-single-enrollment_deadline",
+            "kind": "single_hop",
+            "supporting_fact_ids": [
+              "f1"
+            ],
+            "text": "What is the enrollment deadline? (key: enrollment_deadline)"
+          }
+        ],
+        "scenario": "research_study",
+        "seed": 0,
+        "split": "held_out",
+        "turns": [
+          {
+            "fact_id": null,
+            "index": 0,
+            "kind": "filler",
+            "text": "Just checking in, are you still with me?"
+          },
+          {
+            "fact_id": null,
+            "index": 1,
+            "kind": "filler",
+            "text": "That reminds me of a trip I took a while back."
+          },
+          {
+            "fact_id": null,
+            "index": 2,
+            "kind": "filler",
+            "text": "I saw an interesting article about coral reefs today."
+          },
+          {
+            "fact_id": "f0",
+            "index": 3,
+            "kind": "fact",
+            "text": "For the study, the data monitoring lead is Sofia Rossi. (key: data_monitoring_lead)"
+          },
+          {
+            "fact_id": null,
+            "index": 4,
+            "kind": "filler",
+            "text": "By the way, do you think it'll rain later this week?"
+          },
+          {
+            "fact_id": "f1",
+            "index": 5,
+            "kind": "fact",
+            "text": "For the study, the enrollment deadline is July 11. (key: enrollment_deadline)"
+          },
+          {
+            "fact_id": "f2",
+            "index": 6,
+            "kind": "fact",
+            "text": "For the study, the funding amount is $2000. (key: funding_amount)"
+          },
+          {
+            "fact_id": "f3",
+            "index": 7,
+            "kind": "fact",
+            "text": "For the study, the primary site city is Austin. (key: primary_site)"
+          },
+          {
+            "fact_id": "f4",
+            "index": 8,
+            "kind": "fact",
+            "text": "For the study, the target sample size is 4546. (key: sample_size)"
+          },
+          {
+            "fact_id": "f5",
+            "index": 9,
+            "kind": "fact",
+            "text": "For the study, the IRB protocol number is 8815. (key: irb_protocol_number)"
+          },
+          {
+            "fact_id": null,
+            "index": 10,
+            "kind": "filler",
+            "text": "That reminds me of a trip I took a while back."
+          },
+          {
+            "fact_id": null,
+            "index": 11,
+            "kind": "filler",
+            "text": "By the way, do you think it'll rain later this week?"
+          }
+        ]
+      },
+      "dn_manifest": null,
+      "error": {
+        "error": "ModelError",
+        "error_chain_repr": "ModelError() -> RateLimitError(\"Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01j4wa4j5xfzvsnxwbgwqvhfz3` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199642, Requested 621. Please try again in 1m53.616s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}\")",
+        "error_chain_str": "ModelError -> RateLimitError"
+      },
+      "completion": []
+    },
+    {
+      "info": {
+        "episode_id": "software_project-5",
+        "facts": [
+          {
+            "id": "f0",
+            "is_update": false,
+            "label": "staging database engine",
+            "scenario": "software_project",
+            "slot": "staging_db_engine",
+            "supersedes": null,
+            "turn_index": 0,
+            "value": "mysql"
+          },
+          {
+            "id": "f1",
+            "is_update": false,
+            "label": "release date",
+            "scenario": "software_project",
+            "slot": "release_date",
+            "supersedes": null,
+            "turn_index": 2,
+            "value": "May 11"
+          },
+          {
+            "id": "f2",
+            "is_update": false,
+            "label": "sprint length in days",
+            "scenario": "software_project",
+            "slot": "sprint_length_days",
+            "supersedes": null,
+            "turn_index": 3,
+            "value": "11"
+          },
+          {
+            "id": "f3",
+            "is_update": false,
+            "label": "API rate limit",
+            "scenario": "software_project",
+            "slot": "api_rate_limit",
+            "supersedes": null,
+            "turn_index": 4,
+            "value": "4427"
+          },
+          {
+            "id": "f4",
+            "is_update": true,
+            "label": "staging database engine",
+            "scenario": "software_project",
+            "slot": "staging_db_engine",
+            "supersedes": "f0",
+            "turn_index": 5,
+            "value": "mariadb"
+          },
+          {
+            "id": "f5",
+            "is_update": false,
+            "label": "on-call engineer",
+            "scenario": "software_project",
+            "slot": "on_call_engineer",
+            "supersedes": null,
+            "turn_index": 8,
+            "value": "Yuki Tanaka"
+          },
+          {
+            "id": "f6",
+            "is_update": false,
+            "label": "infrastructure budget",
+            "scenario": "software_project",
+            "slot": "infra_budget",
+            "supersedes": null,
+            "turn_index": 10,
+            "value": "$250"
+          },
+          {
+            "id": "f7",
+            "is_update": true,
+            "label": "infrastructure budget",
+            "scenario": "software_project",
+            "slot": "infra_budget",
+            "supersedes": "f6",
+            "turn_index": 11,
+            "value": "$750"
+          }
+        ],
+        "questions": [
+          {
+            "answer": "$750",
+            "id": "q-temporal-infra_budget",
+            "kind": "temporal_update",
+            "supporting_fact_ids": [
+              "f7"
+            ],
+            "text": "What is the current infrastructure budget? (key: infra_budget)"
+          },
+          {
+            "answer": "release date: May 11; sprint length in days: 11",
+            "id": "q-multi-release_date-sprint_length_days",
+            "kind": "multi_hop",
+            "supporting_fact_ids": [
+              "f1",
+              "f2"
+            ],
+            "text": "What are the release date (key: release_date) and the sprint length in days (key: sprint_length_days)?"
+          },
+          {
+            "answer": "May 11",
+            "id": "q-single-release_date",
+            "kind": "single_hop",
+            "supporting_fact_ids": [
+              "f1"
+            ],
+            "text": "What is the release date? (key: release_date)"
+          },
+          {
+            "answer": "Yuki Tanaka",
+            "id": "q-single-on_call_engineer",
+            "kind": "single_hop",
+            "supporting_fact_ids": [
+              "f5"
+            ],
+            "text": "What is the on-call engineer? (key: on_call_engineer)"
+          }
+        ],
+        "scenario": "software_project",
+        "seed": 5,
+        "split": "held_out",
+        "turns": [
+          {
+            "fact_id": "f0",
+            "index": 0,
+            "kind": "fact",
+            "text": "For the project, the staging database engine is mysql. (key: staging_db_engine)"
+          },
+          {
+            "fact_id": null,
+            "index": 1,
+            "kind": "filler",
+            "text": "What's your favorite way to make coffee?"
+          },
+          {
+            "fact_id": "f1",
+            "index": 2,
+            "kind": "fact",
+            "text": "For the project, the release date is May 11. (key: release_date)"
+          },
+          {
+            "fact_id": "f2",
+            "index": 3,
+            "kind": "fact",
+            "text": "For the project, the sprint length in days is 11. (key: sprint_length_days)"
+          },
+          {
+            "fact_id": "f3",
+            "index": 4,
+            "kind": "fact",
+            "text": "For the project, the API rate limit is 4427. (key: api_rate_limit)"
+          },
+          {
+            "fact_id": "f4",
+            "index": 5,
+            "kind": "fact",
+            "text": "Update: the staging database engine for the project has changed to mariadb. (key: staging_db_engine)"
+          },
+          {
+            "fact_id": null,
+            "index": 6,
+            "kind": "filler",
+            "text": "Thanks, that's helpful context."
+          },
+          {
+            "fact_id": null,
+            "index": 7,
+            "kind": "filler",
+            "text": "Thanks, that's helpful context."
+          },
+          {
+            "fact_id": "f5",
+            "index": 8,
+            "kind": "fact",
+            "text": "For the project, the on-call engineer is Yuki Tanaka. (key: on_call_engineer)"
+          },
+          {
+            "fact_id": null,
+            "index": 9,
+            "kind": "filler",
+            "text": "I saw an interesting article about coral reefs today."
+          },
+          {
+            "fact_id": "f6",
+            "index": 10,
+            "kind": "fact",
+            "text": "For the project, the infrastructure budget is $250. (key: infra_budget)"
+          },
+          {
+            "fact_id": "f7",
+            "index": 11,
+            "kind": "fact",
+            "text": "Update: the infrastructure budget for the project has changed to $750. (key: infra_budget)"
+          }
+        ]
+      },
+      "dn_manifest": null,
+      "error": {
+        "error": "ModelError",
+        "error_chain_repr": "ModelError() -> RateLimitError(\"Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01j4wa4j5xfzvsnxwbgwqvhfz3` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199642, Requested 629. Please try again in 1m57.072s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}\")",
+        "error_chain_str": "ModelError -> RateLimitError"
+      },
+      "completion": []
+    }
+  ]
+}

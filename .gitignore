@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+outputs/
+*.egg-info/
+build/
+dist/
+.env
+# per workspace rule, keep local agent files private
+CLAUDE.md
+AGENTS.md
