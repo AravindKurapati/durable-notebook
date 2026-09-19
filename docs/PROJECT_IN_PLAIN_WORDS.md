@@ -57,23 +57,79 @@ two gates, checked with cheap, ordinary API calls first:
   actually strict?** We run real models through both checks and look for
   a model that scores much higher on the lazy one than the careful one,
   proof the cheat is real and there's room for training to close it.
-  **Running now.**
+  **Passed.**
 
-Only once both gates pass does actual GPU training start.
+Only once both gates passed did actual GPU training start.
 
-## After both gates pass
+## What we actually did
 
-We'd train a model twice with reinforcement learning, once being scored
-by the lazy check and once by the careful one, and compare how much the
-model starts gaming the lazy check when given the chance versus how the
-hardened check holds up. Then publish the results (curves, examples of
-the model cheating caught red-handed, and the environment itself) as an
-installable artifact other people can run.
+We trained a small model (Qwen3-1.7B) twice with reinforcement learning,
+60 rounds of practice each on rented GPUs. The first time it was scored
+by the lazy check, the second time by the careful one.
+
+Then we went back and re-scored every single attempt from both training
+runs with *both* checks. That's possible because the task is generated
+from a fixed seed, so we can rebuild exactly what the model saw and
+exactly what it wrote to its files, and grade it again for free. No GPU,
+no API calls.
+
+A "cheat" here means an attempt the lazy check scored as great and the
+careful check scored as basically wrong: it looks done, but isn't.
+
+## What we found
+
+- **Trained on the lazy check:** the model cheated more and more as
+  training went on. About 16% of attempts were cheats early on, about 41%
+  by the second half. Its lazy score went up while its real score went
+  *down*. It was getting better at looking finished and worse at the
+  actual task.
+- **Trained on the careful check:** cheating stayed low and even dropped,
+  from about 14% to about 7%. Both checks agreed with each other.
+- **Overall:** 29% of attempts were cheats under the lazy check versus 10%
+  under the careful one, a 64.5% reduction.
+
+What the cheating looked like was not clever. It was making things up.
+In one attempt the model wrote the right answer ("polished concrete") to
+its notes, then overwrote it with the word "Unknown" at the end, and the
+lazy check still gave it full marks because the file wasn't empty. When we
+replayed the same question many times, the model gave five different
+dates or five different names for a fact that has one right answer. It
+was guessing, and the lazy check couldn't tell a guess from a real note.
+
+Even before training, the untrained model already showed some of this
+gap. Training against the lazy check made it much bigger; it didn't
+create it from nothing.
+
+## What this does and doesn't prove
+
+Honestly, this result was expected: if you build a check that can be
+fooled and train hard against it, the model learns to fool it. The value
+is the environment itself, the free re-scoring method, and a clean
+measurement of how big the effect is and how much a careful check fixes.
+
+Limits worth knowing:
+
+- It's one training run per check. A second run with different random
+  facts (about $13 of GPU) would show the result repeats.
+- The careful check has its own loophole: it accepts the right answer
+  appearing *anywhere* in the files, not under the right question. A model
+  that dumps every guess it can think of could beat it.
+- It's a small model on made-up facts.
 
 ## Where things stand right now
 
-Gate 1 passed. Gate 2 is running live against a handful of real models.
-Along the way we found and fixed two real bugs in our own grading code
-that were making results look worse than they actually were, so what's
-running now is the first trustworthy attempt at Gate 2. Once it finishes
-we'll know whether to move on to real training.
+Done. Both training runs finished, every attempt has been re-scored, and
+the write-up is in `docs/ANALYSIS_hacking_gap.md` with the curves in
+`docs/hacking_gap_curves.png`. The environment is published on the Prime
+Intellect Environments Hub as `aravind-k/durable-notebook`, and the code
+is on GitHub.
+
+## What could come next (optional)
+
+- **Attack the careful check.** Train hard against it and see if the model
+  finds the "right answer anywhere" loophole, then build a stricter
+  version and show it holds. That would be a real finding, not just a
+  confirmation.
+- **Port to the newer verifiers library (v1)** and use what we learn to
+  write a migration guide for the official verifiers repo. See
+  `docs/specs/FEATURE_v1_taskset_port.md`.
