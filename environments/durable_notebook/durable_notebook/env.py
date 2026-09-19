@@ -294,8 +294,13 @@ def load_environment(
     start_seed: int = 0,
     n_turns: int = 15,
     n_questions: int = 6,
+    max_turns: int = 40,
     **kwargs,
 ) -> DurableNotebookEnv:
+    # max_turns is named explicitly (not just left to **kwargs) so it is a
+    # real, discoverable part of the entry-point contract -- the configs
+    # set it (see docs/specs/TWEAK_stage12_sequence_budget.md) and
+    # test_package_contract.py checks every config arg is a named param.
     from datasets import Dataset
 
     train, held_out = generate_dataset(
@@ -310,6 +315,7 @@ def load_environment(
     return DurableNotebookEnv(
         grader=grader,
         compaction_window=compaction_window,
+        max_turns=max_turns,
         dataset=dataset,
         eval_dataset=eval_dataset,
         **kwargs,

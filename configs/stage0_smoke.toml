@@ -131,6 +131,10 @@ id = "durable-notebook"
 name = "durable-notebook-smoke"
 args = { grader = "naive", compaction_window = 3, n_episodes = 20, n_turns = 10, n_questions = 3, max_turns = 22 }
 
+# resume_step=-1: for testing the orchestrator/trainer checkpoint-path-mismatch
+# fix (modal/trigger.py's _patch_ckpt_output_dir) -- see
+# docs/ANALYSIS_hacking_gap.md. Harmless no-op on a genuinely fresh run_tag.
 [ckpt] # checkpoint at the end, mostly to confirm the write path works
+resume_step = -1
 
 [inference] # defaults

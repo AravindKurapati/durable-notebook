@@ -51,10 +51,34 @@ def reconstruct(record: dict, tmp_root: Path) -> tuple[Workspace, dict]:
                 args = json.loads(tc.get("arguments") or "{}")
             except json.JSONDecodeError:
                 continue
-            if name == "write_file" and "path" in args and "content" in args:
-                ws.write_file(args["path"], args["content"])
+            if name == "write_file" and isinstance(args, dict) and "path" in args and "content" in args:
+                # Mirror the live env: a failing write_file is surfaced to
+                # the policy as an error string and the file is NOT written,
+                # never aborting the rollout. tools.py catches WorkspaceError
+                # explicitly; the prime-rl/verifiers tool bridge additionally
+                # catches anything else (confirmed in real traces: a dict
+                # `content` came back to the model as the literal string
+                # "data must be str, not dict"). Only 9 of ~138k write_file
+                # calls in the deployed1 runs hit this -- negligible, but it
+                # must not crash the replay.
+                try:
+                    ws.write_file(args["path"], args["content"])
+                except Exception:
+                    pass
             elif name == "submit_manifest":
-                manifest = {"entries": args.get("entries", [])}
+                # Real rollouts emit three arg shapes here. `{"entries": [...]}`
+                # is the schema. A bare `[...]` is the shape the policy
+                # naturally reaches for (tools.py's own docstring documents
+                # this) and prime-rl's tool bridge binds it to the `entries`
+                # param positionally, so the live grader saw a real manifest
+                # -- treat it the same. Anything else (scalar, string, null)
+                # is not a usable submission: empty manifest.
+                if isinstance(args, dict):
+                    manifest = {"entries": args.get("entries", [])}
+                elif isinstance(args, list):
+                    manifest = {"entries": args}
+                else:
+                    manifest = {"entries": []}
     return ws, (manifest or {"entries": []})
 
 

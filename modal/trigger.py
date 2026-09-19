@@ -30,12 +30,38 @@ only how the job is launched.
 from __future__ import annotations
 
 import argparse
+import tomllib
 from pathlib import Path
 
 import modal
+import tomli_w
 
 APP_NAME = "durable-notebook-rl"
 _HERE = Path(__file__).parent
+
+
+def _patch_ckpt_output_dir(config_contents: str, out_dir: str) -> str:
+    """Fix a real prime-rl v0.7.0 quirk (docs/ANALYSIS_hacking_gap.md /
+    TWEAK_trainer_optim_offload.md): OrchestratorConfig.output_dir defaults
+    to "outputs/run_default" but TrainerConfig.output_dir defaults to plain
+    "outputs" -- two different baked-in defaults for what our TOML treats
+    as one shared output_dir. The orchestrator's own resume check (using
+    its own output_dir) finds a checkpoint under `run_default/checkpoints`;
+    the trainer's own separate resume check (using its own output_dir)
+    looks in the plain `checkpoints` dir and finds nothing, silently
+    retraining from scratch instead of resuming.
+
+    Fix: explicitly set the shared [ckpt] table's `output_dir` to the same
+    `run_default` path the orchestrator already resolves to, so both
+    processes' resume-checkpoint lookups agree. Done here (locally, in
+    Python, before the config ever reaches Modal) rather than hardcoded
+    into the static .toml files, since the correct absolute path depends
+    on --output-dir/run_tag and isn't known until launch time.
+    """
+    config = tomllib.loads(config_contents)
+    ckpt = config.setdefault("ckpt", {})
+    ckpt["output_dir"] = f"{out_dir}/run_default"
+    return tomli_w.dumps(config)
 
 
 def main() -> None:
@@ -47,6 +73,10 @@ def main() -> None:
     config_path = Path(args.config)
     abs_path = config_path if config_path.is_absolute() else _HERE.parent / config_path
     config_contents = abs_path.read_text()
+
+    out_name = config_path.stem + (f"-{args.run_tag}" if args.run_tag else "")
+    out_dir = f"/outputs/{out_name}"
+    config_contents = _patch_ckpt_output_dir(config_contents, out_dir)
 
     run_training = modal.Function.from_name(APP_NAME, "run_training")
     call = run_training.spawn(

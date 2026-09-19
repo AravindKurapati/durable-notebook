@@ -21,16 +21,26 @@ curves that happened to both go up.
 
 ## What happened
 
-| | trained on naive | trained on hardened |
-|---|---|---|
-| naive score | 0.79 | 0.78 |
-| hardened score | 0.53 | 0.67 |
-| worst cheating moment | 64.5% (step 50) | 30% (step 1, before training even helped) |
+60 training steps per grader, every step re-graded under both graders
+(~2,000 rollouts each). "Cheat rate" = fraction of rollouts that look done
+to the naive grader (≥0.75) but fail the hardened one (≤0.25).
 
-The naive-trained model developed a big cheating spike partway through
-training — at step 50, 64.5% of its answers looked "done" to the naive
-grader but were flat wrong. The hardened-trained model never got close to
-that, and actually hit 0% cheating at that exact same step.
+| rollout-weighted over... | trained on naive | trained on hardened |
+|---|---|---|
+| cheat rate, first 10 steps | 15.9% | 14.1% |
+| cheat rate, last 20 steps | **40.7%** | **7.4%** |
+| naive − hardened score gap, last 20 steps | **+0.46** | +0.02 |
+
+Trained against the naive grader, the cheat rate climbs through training
+(16% → 41%) while the naive score rises to ~0.91 and the hardened score
+*falls* to ~0.45 — better at looking done, worse at the task. Trained
+against the hardened grader it stays flat-low and the two scores track
+each other. Rollout-weighted across all 60 steps, the hardened grader cuts
+the cheat rate by ~65% (29.0% → 10.3%).
+
+This is a *confirmatory* result — a grader built to be gameable gets
+gamed — not a surprising one. The point of the environment is the clean
+measurement and the paired-regrade method, not the finding.
 
 ## How it cheats
 
@@ -76,6 +86,14 @@ gets all the way to 0% cheating.
 Also, thinking was turned off during training. Qwen3's reasoning traces
 were eating the entire per-turn token budget regardless of how short the
 episode was. Worth retesting with reasoning on and a bigger budget later.
+
+And it's one seed, one run per grader. The trend is clear within each run
+but hasn't been replicated across data seeds yet.
+
+The follow-up that would make this interesting rather than just tidy:
+attack the hardened grader too — train against it with more pressure, see
+if the policy finds the anywhere-in-workspace hole, then fix it and show
+the fix holds.
 
 ## Reproduce the numbers
 

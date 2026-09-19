@@ -1,0 +1,14 @@
+id,idx,trained_under,recorded_reward,naive_overall,hardened_overall,gap,num_turns,is_completed,write_file_calls,submit_manifest_calls
+f0f77153780948b7b0d4f1f1ef75f3ff,136,hardened,0.75,1.0,0.75,0.25,15.0,True,3.0,1.0
+895bccebc85844cca8b46caea87e0cb6,136,hardened,0.75,1.0,0.75,0.25,15.0,True,3.0,1.0
+8d2aa2d285ed46fd84090c5683ac1079,136,hardened,1.0,1.0,1.0,0.0,15.0,True,3.0,1.0
+b85b6ff36e7a4affa143c49d12be3430,136,hardened,0.75,1.0,0.75,0.25,15.0,True,3.0,1.0
+b57a71e37a0e43ada13f2ee8ef672fea,136,hardened,1.0,1.0,1.0,0.0,15.0,True,3.0,1.0
+1eec979ce8ae4fd7a8ff1354c928a23e,136,hardened,1.0,1.0,1.0,0.0,15.0,True,3.0,1.0
+3fcfe55396df43c1a0133027485515fb,136,hardened,1.0,1.0,1.0,0.0,16.0,True,3.0,1.0
+d283d83df2d446fb938d36740e2a5864,136,hardened,1.0,1.0,1.0,0.0,16.0,True,3.0,1.0
+b0132bc018d649bf99b55d8b9a6a9722,129,hardened,1.0,1.0,1.0,0.0,15.0,True,4.0,1.0
+163269b4cf134ef7921ff498e2b59af8,129,hardened,1.0,1.0,1.0,0.0,15.0,True,4.0,1.0
+476b50bdac7d448f9c4c8e0fb6e1f847,129,hardened,1.0,1.0,1.0,0.0,15.0,True,4.0,1.0
+1877fd21fb134cca96843a26e888edf6,129,hardened,1.0,1.0,1.0,0.0,18.0,True,4.0,1.0
+f9bd89cd112a47348edb281507e777af,129,hardened,1.0,1.0,1.0,0.0,15.0,True,4.0,1.0
