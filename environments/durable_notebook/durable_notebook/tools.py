@@ -18,14 +18,26 @@ from __future__ import annotations
 from durable_notebook.manifest import validate_manifest_shape
 from durable_notebook.workspace import Workspace, WorkspaceError
 
+# What the filesystem itself can raise on a path or content the model chose: a file
+# used as a directory, an over-long name, a NUL byte, a lone surrogate.
+TOOL_ERRORS = (WorkspaceError, OSError, ValueError)
+
+
+def _error(path: str, e: Exception) -> str:
+    # OSError's message carries the absolute host path of the workspace; the policy
+    # only ever needs the relative path it passed in.
+    if isinstance(e, OSError):
+        return f"error: {path!r}: {e.strerror or type(e).__name__}"
+    return f"error: {e}"
+
 
 def write_file(path: str, content: str, state) -> str:
     """Write `content` to `path` in your private workspace, creating parent directories as needed. Overwrites any existing file at that path."""
     workspace: Workspace = state["dn_workspace"]
     try:
         return workspace.write_file(path, content)
-    except WorkspaceError as e:
-        return f"error: {e}"
+    except TOOL_ERRORS as e:
+        return _error(path, e)
 
 
 def read_file(path: str, state) -> str:
@@ -33,8 +45,8 @@ def read_file(path: str, state) -> str:
     workspace: Workspace = state["dn_workspace"]
     try:
         return workspace.read_file(path)
-    except WorkspaceError as e:
-        return f"error: {e}"
+    except TOOL_ERRORS as e:
+        return _error(path, e)
 
 
 def list_files(state) -> str:

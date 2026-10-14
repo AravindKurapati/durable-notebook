@@ -31,6 +31,17 @@ def test_path_traversal_returns_error_string_not_exception(tmp_path):
     assert result.startswith("error:")
 
 
+def test_os_level_failures_return_error_strings_without_host_paths(tmp_path):
+    state = _state(tmp_path)
+    write_file("a.txt", "x", state)
+    # a file used as a directory, a name over the filesystem limit, a NUL byte
+    for path in ("a.txt/b", "n" * 300, "nul\x00.txt"):
+        for result in (write_file(path, "x", state), read_file(path, state)):
+            assert result.startswith("error:"), (path, result)
+            assert str(tmp_path) not in result
+    assert write_file("s.txt", "\ud800", state).startswith("error:")  # lone surrogate
+
+
 def test_two_episode_states_are_isolated(tmp_path):
     state_a = _state(tmp_path, "ep-a")
     state_b = _state(tmp_path, "ep-b")
